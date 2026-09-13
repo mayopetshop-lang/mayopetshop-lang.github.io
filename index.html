@@ -3,10 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+
+<!-- ═══════════ TÊN VÀ CHẾ ĐỘ TOÀN MÀN HÌNH ═══════════ -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mayo">
+<!-- Màu thanh trạng thái khi mở từ màn hình chính.
+     black-translucent cho nội dung tràn lên sát mép trên, hợp với viewport-fit=cover. -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#BE1E2D">
 <title>Mayo Petshop</title>
+
+<!-- ═══════════ ICON MÀN HÌNH CHÍNH ═══════════
+     iOS gần như BỎ QUA manifest và chỉ đọc apple-touch-icon, nên phải khai báo
+     cả hai đường. Thiếu apple-touch-icon là iPhone chụp ảnh màn hình trang web
+     làm icon — đúng hiện tượng anh đang gặp.
+
+     iOS cũng KHÔNG tự bo góc ảnh có nền trong suốt, nên các tệp apple-touch-icon
+     phải có nền đặc kín mép. Manifest của Android thì ngược lại, cần bản
+     "maskable" chừa lề an toàn để hệ thống tự cắt theo hình dạng của máy. -->
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/apple-touch-icon-167.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="manifest" href="manifest.webmanifest">
+
 <style>
   html,body{margin:0;padding:0;height:100%;background:#FFFCF7;overflow:hidden}
   iframe{border:0;width:100%;height:100%;display:block}
