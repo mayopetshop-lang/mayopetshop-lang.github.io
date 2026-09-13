@@ -1,0 +1,18 @@
+{
+  "name": "Mayo Petshop",
+  "short_name": "Mayo",
+  "description": "Quản lý lịch hẹn, hồ sơ bé và báo giá của Mayo Petshop",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFCF7",
+  "theme_color": "#BE1E2D",
+  "lang": "vi",
+  "icons": [
+    { "src": "icons/icon-192.png",          "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png",          "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
