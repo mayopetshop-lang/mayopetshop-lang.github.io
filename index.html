@@ -8,10 +8,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mayo">
-<!-- Màu thanh trạng thái khi mở từ màn hình chính.
-     black-translucent cho nội dung tràn lên sát mép trên, hợp với viewport-fit=cover. -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#BE1E2D">
+<!-- CỐ TÌNH KHÔNG dùng black-translucent.
+     black-translucent cho nội dung tràn lên NẰM DƯỚI đồng hồ, sóng và pin của
+     iPhone. App có vạch tải và nhãn "Đang xử lý…" ghim ở mép trên, nên chúng
+     chui thẳng xuống dưới thanh trạng thái và bị che mất.
+     Chỉ chỉnh bằng env(safe-area-inset-*) bên trong app thì KHÔNG cứu được:
+     iframe không phải tài liệu gốc nên env() trả về 0. Phải xử lý ở đây. -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFFCF7">
 <title>Mayo Petshop</title>
 
 <!-- ═══════════ ICON MÀN HÌNH CHÍNH ═══════════
@@ -30,8 +34,22 @@
 <link rel="manifest" href="manifest.webmanifest">
 
 <style>
-  html,body{margin:0;padding:0;height:100%;background:#FFFCF7;overflow:hidden}
-  iframe{border:0;width:100%;height:100%;display:block}
+  /* Trang bọc chịu trách nhiệm chừa lề an toàn, vì nó là tài liệu GỐC — chỉ ở
+     đây env(safe-area-inset-*) mới trả về số thật. Bên trong iframe luôn là 0.
+     Đẩy khung xuống dưới tai thỏ rồi, app bên trong cứ vẽ từ toạ độ 0 như bình
+     thường mà không có gì bị che. */
+  html{height:100%;overscroll-behavior:none}
+  body{
+    margin:0;height:100%;box-sizing:border-box;
+    background:#FFFCF7;overflow:hidden;
+    /* Chặn kéo-để-tải-lại ở TẦNG NGOÀI CÙNG.
+       iOS nghe lệnh tải lại từ tài liệu gốc, mà tài liệu gốc chính là trang này
+       chứ không phải app trong khung. Chỉ chặn bên trong app là chưa đủ: cú kéo
+       vẫn chuyền ra tới đây và trang vẫn nạp lại, xoá sạch mọi thứ đang nhập dở. */
+    overscroll-behavior:none;
+    padding-top:env(safe-area-inset-top,0px);
+  }
+  iframe{border:0;display:block;width:100%;height:100%}
 </style>
 </head>
 <body>
@@ -50,7 +68,7 @@
   ════════════════════════════════════════════════════════════════
 -->
 <iframe
-  src="https://script.google.com/macros/s/AKfycbwBvGfdUIZB-toRvV_48pZNZ48ZJ3CaWOUpAsT6j_0CWW03lnbILcBet4XmL-GVLogW/exec"
+  src="https://script.google.com/macros/s/AKfycbzU2tHev8MnVAvLTCAWSI7cZHCcZVTTpADwXGYLa416JXHGpS4gN4Ja6eW6AxThe1nC/exec"
   allow="camera; clipboard-write"
   title="Mayo Petshop">
 </iframe>
