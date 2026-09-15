@@ -129,32 +129,6 @@
     #chao *{animation:none !important;transition:none !important}
     #chao .khoi{top:calc(env(safe-area-inset-top,0px) + 7vh);transform:none}
   }
-  /* ═══════════ LỐI THOÁT KHI KHUNG NHÚNG BỊ CHẶN ═══════════
-     Đây là thanh nhỏ ở đáy, KHÔNG phải màn phủ toàn màn hình.
-
-     Bản trước tôi làm thành màn phủ kín, và nó chặn luôn những máy mà app đang
-     chạy hoàn toàn bình thường — chỉ vì thiếu một tín hiệu. Không đọc được nội
-     dung khung nhúng (khác nguồn) nên không bao giờ biết CHẮC là app hỏng; mà
-     đã không chắc thì không được phép che. Thà để sót một máy thật sự bị chặn
-     còn hơn chặn nhầm một máy đang dùng tốt.
-
-     Thanh này chỉ gợi ý. App vẫn hiện nguyên bên dưới, bấm X là biến mất. */
-  #cuu{position:fixed;left:12px;right:12px;z-index:10000;
-    bottom:calc(14px + env(safe-area-inset-bottom,0px));
-    display:none;align-items:center;gap:12px;
-    background:#FFF;border:1px solid #EDE4DE;border-radius:16px;
-    padding:12px 14px;box-shadow:0 8px 28px rgba(80,60,50,.16);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    animation:cuuVao .35s cubic-bezier(.2,.9,.3,1) both}
-  #cuu.hien{display:flex}
-  @keyframes cuuVao{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-  #cuu .chu{flex:1;min-width:0}
-  #cuu .chu b{display:block;font-size:13.5px;font-weight:700;color:#4A332C;margin-bottom:2px}
-  #cuu .chu span{display:block;font-size:11.5px;line-height:1.45;color:#9C8F87}
-  #cuu a{flex:0 0 auto;background:#BE1E2D;color:#fff;text-decoration:none;
-    padding:10px 16px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap}
-  #cuu button{flex:0 0 auto;border:0;background:0;color:#C4B7AF;
-    font-size:19px;line-height:1;padding:4px 2px;cursor:pointer}
 
 </style>
 </head>
@@ -183,53 +157,45 @@
   ════════════════════════════════════════════════════════════════
 -->
 
-<div id="cuu">
-  <div class="chu">
-    <b>App chưa hiện được?</b>
-    <span>Một số trình duyệt chặn hiển thị app bên trong trang.</span>
-  </div>
-  <a id="nutCuu" href="#" target="_blank" rel="noopener">Mở tab mới</a>
-  <button type="button" onclick="this.parentNode.classList.remove('hien')" aria-label="Đóng">×</button>
-</div>
-
 <iframe id="khung"
-  src="https://script.google.com/macros/s/AKfycbygJAlPgQ7MNFxkVKW2Y23hXghy4zNr3pmWH2wJHskJn2dtJoxlMwr-FRRoMrEj9eiJ/exec"
+  src="https://script.google.com/macros/s/AKfycbwfXfsCq_PsiDoaKJQYLxMNboEYlTbc1DlgNq4YJSke1XXIkwUjcJ5if3qj1whonf3f/exec"
   allow="camera; clipboard-write"
   title="Mayo Petshop">
 </iframe>
 
 
 <script>
-/* ═══════════ ĐIỀU PHỐI MÀN CHÀO VÀ LỐI THOÁT ═══════════
+/* ═══════════ TẮT MÀN CHÀO ═══════════
 
-   Hai việc tách bạch, đừng gộp:
+   Chỉ làm đúng một việc: tắt màn chào khi khung đã tải.
 
-   1) TẮT MÀN CHÀO — tắt khi có BẤT KỲ dấu hiệu nào cho thấy khung đã tải:
-      tín hiệu 'mayo-san-sang' từ app, hoặc sự kiện load, hoặc hết 6 giây.
-      Rộng rãi như vậy vì màn chào mà không chịu tắt là hỏng nặng hơn nhiều so
-      với tắt hơi sớm.
+   Bản trước có thêm cơ chế tự dò "app có bị chặn không" rồi hiện lối thoát.
+   Đã bỏ hẳn. Lý do: khung nhúng khác nguồn nên KHÔNG BAO GIỜ đọc được bên
+   trong để biết chắc app hỏng hay không — mọi cách dò đều là phỏng đoán, và
+   phỏng đoán sai thì phá hỏng một app đang chạy bình thường. Điện thoại vốn
+   không có vấn đề gì, thêm cơ chế dò vào chỉ tạo ra lỗi mới.
 
-   2) GỢI Ý MỞ TAB MỚI — chỉ là một thanh nhỏ ở đáy, app vẫn dùng được bên dưới.
-      Bản trước tôi cho nó phủ kín màn hình và nó đã chặn nhầm máy đang chạy tốt.
-      Vì khác nguồn nên không bao giờ đọc được bên trong khung để biết CHẮC là
-      hỏng — đã không chắc thì không được phép che. */
+   Việc chặn cookie bên thứ ba trên máy tính là chuyện của cấu hình triển khai
+   (Who has access = Anyone) và của cách phát link, không phải chuyện mà mã
+   nguồn ở đây giải quyết được bằng cách đoán.
+
+   Tắt khi có BẤT KỲ dấu hiệu nào: tín hiệu từ app, sự kiện load, hoặc hết 6
+   giây. Rộng rãi như vậy vì màn chào không chịu tắt là lỗi nặng hơn nhiều so
+   với tắt hơi sớm. */
 (function(){
   var chao =document.getElementById('chao'),
       khoi =document.getElementById('khoiChao'),
       khung=document.getElementById('khung'),
-      cuu  =document.getElementById('cuu'),
-      nut  =document.getElementById('nutCuu'),
-      batDau=Date.now(), xong=false, coTinHieu=false;
-
-  nut.href = khung.src;
+      batDau=Date.now(), xong=false;
 
   function tat(){
     if(xong)return; xong=true;
     setTimeout(function(){
-      chao.classList.add('roi');
+      chao.classList.add('roi');          // tắt ba chấm trước khi trôi
       khoi.classList.add('len');
       setTimeout(function(){
         chao.classList.add('tat');
+        // Gỡ hẳn khỏi trang, tránh lớp phủ vô hình chặn thao tác chạm.
         setTimeout(function(){
           if(chao.parentNode)chao.parentNode.removeChild(chao);
         },700);
@@ -238,19 +204,10 @@
   }
 
   window.addEventListener('message',function(e){
-    if(e.source!==khung.contentWindow)return;
-    if(e.data==='mayo-san-sang'){coTinHieu=true;tat();}
+    if(e.source===khung.contentWindow && e.data==='mayo-san-sang')tat();
   });
-
-  khung.addEventListener('load',tat);   // dấu hiệu yếu, nhưng đủ để tắt màn chào
-  setTimeout(tat,6000);                 // chốt chặn cuối, không để treo màn chào
-
-  /* Sau 10 giây mà app vẫn chưa hề báo về thì mới gợi ý. Đặt dài như vậy để
-     những máy chỉ chậm mạng kịp xong trước đó — thanh này chỉ nên xuất hiện
-     với người thật sự đang nhìn màn hình trắng. */
-  setTimeout(function(){
-    if(!coTinHieu)cuu.classList.add('hien');
-  },10000);
+  khung.addEventListener('load',tat);
+  setTimeout(tat,6000);
 })();
 </script>
 
